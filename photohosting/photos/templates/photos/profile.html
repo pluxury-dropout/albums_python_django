@@ -1,0 +1,43 @@
+{% extends "photos/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <img src="{{ user.profile_picture.url }}" class="img-thumbnail" alt="Аватар">
+        </div>
+        <div class="col-md-10">
+            <h2>{{ user.username }}</h2>
+            <p class="text-muted">{{ user.email }}</p>
+        </div>
+    </div>
+
+    <h3>Мои альбомы</h3>
+    <a href="{% url 'create-album' %}" class="btn btn-success mb-3">
+        Создать новый альбом
+    </a>
+
+    <div class="row">
+        {% for album in user.album_set.all %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if album.photos.first %}
+                <img src="{{ album.photos.first.image.url }}" class="card-img-top" alt="{{ album.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.title }}</h5>
+                    <p class="card-text">{{ album.description|truncatechars:100 }}</p>
+                    <a href="{% url 'album-detail' album.pk %}" class="btn btn-primary">
+                        Посмотреть ({{ album.photos.count }})
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">У вас пока нет альбомов</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

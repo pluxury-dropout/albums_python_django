@@ -1,0 +1,30 @@
+{% extends "photos/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Публичные альбомы</h2>
+    
+    <div class="row">
+        {% for album in albums %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if album.photos.first %}
+                <img src="{{ album.photos.first.image.url }}" class="card-img-top" alt="{{ album.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.title }}</h5>
+                    <p class="card-text">{{ album.description|truncatechars:100 }}</p>
+                    <a href="{% url 'album-detail' album.pk %}" class="btn btn-primary">
+                        Посмотреть ({{ album.photos.count }})
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">Публичных альбомов пока нет</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

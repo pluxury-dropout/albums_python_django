@@ -51,4 +51,4 @@ def album_detail(request, pk):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html')
+    return render(request, 'photos/profile.html')

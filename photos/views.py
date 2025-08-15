@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, AlbumForm, PhotoUploadForm
 from .models import Album, Photo
+from django.contrib.auth import logout
 
 def register(request):
     if request.method == 'POST':
@@ -52,3 +53,7 @@ def album_detail(request, pk):
 @login_required
 def profile(request):
     return render(request, 'photos/profile.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
